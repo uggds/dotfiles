@@ -198,36 +198,6 @@ NeoBundle "tomasr/molokai"
 colorscheme molokai
 
 " -------------------------------------------------
-" neocompleteの設定
-" -------------------------------------------------
-NeoBundleLazy 'Shougo/neocomplete.vim', {
-    \ "autoload": {"insert": 1}}
-" neocompleteのhooksを取得
-let s:hooks = neobundle#get_hooks("neocomplete.vim")
-" neocomplete用の設定関数を定義。下記関数はneocompleteロード時に実行される
-function! s:hooks.on_source(bundle)
-    let g:acp_enableAtStartup = 0
-    let g:neocomplete#enable_smart_case = 1
-    " NeoCompleteを有効化
-    "NeoCompleteEnable
-endfunction
-
-" -------------------------------------------------
-" neosnippet.vimの設定
-" -------------------------------------------------
-NeoBundleLazy 'Shougo/neosnippet.vim', {
-    \ "autoload": {"insert": 1}}
-" 'GundoToggle'が呼ばれるまでロードしない
-NeoBundleLazy 'sjl/gundo.vim', {
-    \ "autoload": {"commands": ["GundoToggle"]}}
-" '<Plug>TaskList'というマッピングが呼ばれるまでロードしない
-NeoBundleLazy 'vim-scripts/TaskList.vim', {
-    \ "autoload": {"mappings": ['<Plug>TaskList']}}
-" HTMLが開かれるまでロードしない
-NeoBundleLazy 'mattn/zencoding-vim', {
-    \ "autoload": {"filetypes": ['html']}}
-
-" -------------------------------------------------
 " vim-templateの設定
 " ------------------------------------------------- 
 NeoBundle "thinca/vim-template"
@@ -349,21 +319,20 @@ if has('lua') && v:version >= 703 && has('patch885')
         let g:acp_enableAtStartup = 0
         let g:neocomplet#enable_smart_case = 1
         " NeoCompleteを有効化
-        " NeoCompleteEnable
+        NeoCompleteEnable
     endfunction
 else
     NeoBundleLazy "Shougo/neocomplcache.vim", {
         \ "autoload": {
         \   "insert": 1,
         \ }}
-    " 2013-07-03 14:30 原因不明だがNeoComplCacheEnableコマンドが見つからないので変更
     let g:neocomplcache_enable_at_startup = 1
     let s:hooks = neobundle#get_hooks("neocomplcache.vim")
     function! s:hooks.on_source(bundle)
         let g:acp_enableAtStartup = 0
         let g:neocomplcache_enable_smart_case = 1
         " NeoComplCacheを有効化
-        " NeoComplCacheEnable 
+        NeoComplCacheEnable 
     endfunction
 endif
 
