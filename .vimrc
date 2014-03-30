@@ -256,6 +256,7 @@ colorscheme molokai
 " Statusを格好良く表示
 "NeoBundle 'bling/vim-airline'
 
+NeoBundle 'itchyny/lightline.vim'
 let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'mode_map': { 'c': 'NORMAL' },
