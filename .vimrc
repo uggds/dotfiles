@@ -20,11 +20,25 @@ set showmatch "対応する括弧のハイラ/イト表示する
 set backspace=indent,eol,start
 set ruler "ルーラーの表示する
 set virtualedit=all " 矩形選択で自由に移動する
+set textwidth=0 "自動改行しない
+set nowrap " 長い行を折り返さないで表示
+" j, k による移動を折り返されたテキストでも自然に振る舞うように変更
+nnoremap j gj
+nnoremap k gk
+
+set ignorecase "検索時に大文字小文字を無視
+" 検索後にジャンプした際に検索単語を画面中央に持ってく
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
 "set cursorline " カーソル行をハイライト
-":hi clear CursorLine
-":hi CursorLine gui=underline
 autocmd ColorScheme * highlight CursorLineNr ctermfg=250
 autocmd ColorScheme * highlight Comment ctermbg=0
+autocmd ColorScheme * highlight LineNr ctermbg=0
+autocmd ColorScheme * highlight Normal ctermbg=none
 
 " Leader キーを設定
 let mapleader = ","
@@ -36,7 +50,7 @@ set clipboard+=unnamed
 "ヤンクした文字は、システムのクリップボードに入れる
 set clipboard+=autoselect
 " 挿入モードでCtrl+kを押すとクリップボードの内容を貼り付けられるようにする
-imap <C-p>  <ESC>"*pa
+"imap <C-p>  <ESC>"*pa
 " ターミナルでマウスを使用できるようにする
 set mouse=a
 set guioptions+=a
@@ -171,12 +185,12 @@ endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
+" NeoBundle 'Shougo/vimproc', {
+"       \ 'build' : {
+"       \     'mac' : 'make -f make_mac.mak',
+"       \     'unix' : 'make -f make_unix.mak',
+"       \    },
+"       \ }
  
 if has("lua")
   NeoBundleLazy 'Shougo/neocomplete', { 'autoload' : {
@@ -354,6 +368,7 @@ nmap <silent><Leader>ig <Plug>IndentGuidesToggle
 NeoBundle "deton/jasegment.vim"
 " unite
 NeoBundle "Shougo/unite.vim"
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'ujihisa/unite-colorscheme'
 NeoBundle 'h1mesuke/unite-outline'
 " 入力モードで開始する
@@ -414,6 +429,18 @@ function! s:unite_my_settings()
   imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
 endfunction
 
+"------------------------------------
+"  javascriptライブラリsyntax
+"------------------------------------
+NeoBundle 'othree/javascript-libraries-syntax.vim'
+autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 1
+
+NeoBundle 'burnettk/vim-angular'
+ let g:angular_source_directory = 'app'
+ let g:angular_test_directory = 'jasmine/spec'
+ let g:angular_filename_convention = 'camelcased'
+NeoBundle 'matthewsimo/angular-vim-snippets'
+NeoBundle 'claco/jasmine.vim'
 "------------------------------------
 "" smooth_scroll.vim
 "------------------------------------
@@ -657,7 +684,8 @@ NeoBundleLazy 'tsukkee/unite-tag', {
       \   'unite_sources' : ['tag', 'tag/file', 'tag/include']
       \ }}
 
-
+" restart
+NeoBundle 'tyru/restart.vim'
 " ------------------------------------
 " switch.vim
 " ------------------------------------
@@ -810,7 +838,7 @@ NeoBundle 'tpope/vim-haml'
 " Slim
 NeoBundle 'slim-template/vim-slim'
 " CSS
-NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'mattn/emmet-vim'
 NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'taichouchou2/html5.vim'
 " Less
@@ -818,6 +846,10 @@ NeoBundle 'groenewege/vim-less'
 "scss
 NeoBundle 'cakebaker/scss-syntax.vim'
 
+"----------------------------------------
+" gitv
+"----------------------------------------
+NeoBundle 'gregsexton/gitv'
 
 "----------------------------------------
 " Clojure
@@ -893,16 +925,19 @@ endfunction
 " CSV
 NeoBundle 'chrisbra/csv.vim'
 
-"vimshellの設定
-if has('mac')
-  let g:vimproc_dll_path = $VIMRUNTIME . '/autoload/vimproc_mac.so'
-elseif has('win32')
-  let g:vimproc_dll_path = $HOME . '/.vim/bundle/vimproc/autoload/vimproc_win32.dll'
-elseif has('win64')
-  let g:vimproc_dll_path = $HOME . '/.vim/bundle/vimproc/autoload/vimproc_win64.dll'
-else
-  let g:vimproc_dll_path = $HOME . '/.vim/bundle/vimproc/autoload/vimproc_unix.so'
-endif
+" 整形
+ NeoBundle 'thinca/vim-prettyprint'
+
+""vimshellの設定
+"if has('mac')
+"  let g:vimproc_dll_path = $VIMRUNTIME . '/autoload/vimproc_mac.so'
+"elseif has('win32')
+"  let g:vimproc_dll_path = $HOME . '/.vim/bundle/vimproc/autoload/vimproc_win32.dll'
+"elseif has('win64')
+"  let g:vimproc_dll_path = $HOME . '/.vim/bundle/vimproc/autoload/vimproc_win64.dll'
+"else
+"  let g:vimproc_dll_path = $HOME . '/.vim/bundle/vimproc/autoload/vimproc_unix.so'
+"endif
 
 " RSpecコマンド
 nnoremap <silent> ,rs :RunSpec<CR>
