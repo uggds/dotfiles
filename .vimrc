@@ -182,7 +182,7 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " NeoBundle 'Shougo/vimproc', {
@@ -672,12 +672,12 @@ NeoBundleLazy 'alpaca-tc/neorspec.vim', {
       \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
       \ }}
 
-NeoBundleLazy 'alpaca-tc/alpaca_tags', {
-      \ 'depends': 'Shougo/vimproc',
-      \ 'autoload' : {
-      \   'commands': ['TagsUpdate', 'TagsSet', 'TagsBundle']
-      \ }}
-
+"NeoBundleLazy 'alpaca-tc/alpaca_tags', {
+"      \ 'depends': 'Shougo/vimproc',
+"      \ 'autoload' : {
+"      \   'commands': ['TagsUpdate', 'TagsSet', 'TagsBundle']
+"      \ }}
+"
 NeoBundleLazy 'tsukkee/unite-tag', {
       \ 'depends' : ['Shougo/unite.vim'],
       \ 'autoload' : {
@@ -852,6 +852,11 @@ NeoBundle 'cakebaker/scss-syntax.vim'
 NeoBundle 'gregsexton/gitv'
 
 "----------------------------------------
+" gitv
+"----------------------------------------
+NeoBundle 'digitaltoad/vim-pug'
+
+"----------------------------------------
 " Clojure
 "----------------------------------------
 NeoBundle 'slimv.vim'
@@ -870,7 +875,7 @@ exe "set rtp+=" . globpath($GOPATH, "src/github.com/golang/lint/misc/vim")
 
 
 " git
-NeoBundle "git://git.wincent.com/command-t.git"
+" NeoBundle "git://git.wincent.com/command-t.git"
 NeoBundle "tpope/vim-fugitive"
 nnoremap <silent> ,ga :Gwrite<CR>
 nnoremap <silent> ,gc :Gcommit<CR>
@@ -926,7 +931,10 @@ endfunction
 NeoBundle 'chrisbra/csv.vim'
 
 " 整形
- NeoBundle 'thinca/vim-prettyprint'
+NeoBundle 'thinca/vim-prettyprint'
+
+NeoBundleLazy 'othree/yajs.vim', {'autoload':{'filetypes':['javascript']}}
+autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 
 ""vimshellの設定
 "if has('mac')
@@ -953,3 +961,4 @@ if(!empty(neobundle#get_not_installed_bundle_names()))
   " vimrc は必ず再読み込み可能な形式で記述すること
   source ~/.vimrc
 end
+call neobundle#end()
